@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="msg" style="width:300px;height:400px;border: 1px solid tomato;overflow: auto;"></div>
+<input type="text" id="text">
+<input type="submit" value="发送数据" onclick="song()">
+
+<script>
+
+    
+    function getCurrentDate() {
+
+        var str = '';
+
+        var date = new Date();
+        str += date.getFullYear() + '-';
+        str += (date.getMonth() + 1) + '-';
+        str += date.getDate() + ' ';
+        str += date.getHours() + ':';
+        str += date.getMinutes() + ':';
+        str += date.getSeconds() + ' ';
+        return str;
+    }
+
+    var data = {
+      message_type:"group",
+      user_id:1,
+      group_id:1,
+      other_user_id:[1,2,3,4,5],
+      content:'hello world!',
+      status:true,
+      time:getCurrentDate()
+    };
+
+    var msg = document.getElementById('msg');
+    var ws_serveer = 'ws://127.0.0.1:9501';
+    var web_socket = new WebSocket(ws_serveer);
+    web_socket.onopen = function (evt) {
+
+        var status = web_socket.readyState;
+        if (status == 1) {
+            alert("connect successful!");
+        } else {
+            alert("connect error!");
+        }
+    }
+
+    function song() {
+        var text = document.getElementById('text').value;
+        // alert(text);
+        data.content = text;
+        data.message_type = "group";
+        data.other_user_id = [1,2,3];
+        data.time = getCurrentDate();
+
+        // alert(data.toString());
+        web_socket.send(JSON.stringify(data));
+    }
+
+    web_socket.onmessage = function (evt) {
+        //接收服务器发送过来的数据
+        var message = JSON.parse(evt.data);
+        if (!message) {
+            alert("data id error !");
+            return ;
+        }
+        //判断消息类型
+        if (message.message_type == "boxtip") {
+            alert(message.content);
+        } else {
+            msg.innerHTML += '[' + message.user_id + ':' + message.content + ']' + '<br>';
+        }
+    }
+
+</script>
+
+</body>
+</html>

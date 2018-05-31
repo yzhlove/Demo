@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<pre>
+mate:{"model":"games","code":"xiaochengxu","action":"mate","data":{"sid":"1"}}
+enter:{"model":"games","code":"xiaochengxu","action":"enter","data":{"sid":"1","room_id":1}}
+start:{"model":"games","code":"xiaochengxu","action":"start","data":{"sid":"1","room_id":1,"number":1}}
+play:{"model":"games","code":"xiaochengxu","action":"play","data":{"sid":"1","room_id":1,"end_time":10,"answer":"周杰伦","current_topic_num":1}}
+finish:{"model":"games","code":"xiaochengxu","action":"finish","data":{"sid":"1","room_id":1,"score":120}}
+finish_2:{"model":"games","code":"xiaochengxu","action":"friend","data":{"sid":"1","other_sid":"2"}}
+</pre>
+
+<div id="show" style="width: 500px;height: 600px;border: 1px solid tomato;overflow: auto">
+
+</div>
+</br>
+<textarea id="text" name="textarea" rows="4" cols="50">
+    input string
+</textarea>
+
+<input type="submit" value="submit" onclick="send()">
+
+<script>
+
+    //本地地址
+    $http_url = "ws://127.0.0.1:9501?sid=1";
+    // $http_url = "wss://wgame.momoyuedu.cn?sid=1234"
+    //服务器测试地址
+    // $http_url = "ws://116.62.103.161:9501?sid=1234";
+    var web_socket = new WebSocket($http_url);
+
+    web_socket.onopen = function (ev) {
+        alert(' connect successful!');
+    }
+
+    web_socket.onmessage = function (ev) {
+
+        var index = "<br>--------------------<br>";
+        var str = ev.data;
+        $msg = document.getElementById("show");
+        $msg.innerHTML = index + str + index;
+    }
+
+    web_socket.onclose = function (evt) {
+        alert("disconnect!");
+    }
+
+    function send() {
+        $msg = document.getElementById("text");
+        web_socket.send($msg.value);
+        $msg.value = "";
+    }
+
+</script>
+</body>
+</html>

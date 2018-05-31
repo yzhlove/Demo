@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="msg" style="width:200px;height:400px;border: 1px solid tomato;"></div>
+<input type="text" id="text">
+<input type="submit" value="发送数据" onclick="song()">
+
+<script>
+
+    var msg = document.getElementById('msg');
+    var ws_serveer = 'ws://127.0.0.1:9520';
+    var web_socket = new WebSocket(ws_serveer);
+    web_socket.onopen = function (evt) {
+        msg.innerHTML = web_socket.readyState;
+    }
+
+    function song() {
+        var text = document.getElementById('text').value;
+        document.getElementById('text').value = '';
+        web_socket.send(text);
+    }
+
+    web_socket.onmessage = function (evt) {
+        console.log(evt.data);
+        msg.innerHTML += evt.data + '<br>';
+    }
+
+    web_socket.onerror = function (evt,e) {
+        alert('Error occured: ' + evt.data);
+    }
+
+</script>
+
+
+
+</body>
+</html>

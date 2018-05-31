@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>WebSocket</title>
+</head>
+<body>
+
+<script>
+
+    //创建websocket客户端
+    var webserver_ip = "ws://127.0.0.1:8808";
+    var websocket = new WebSocket(webserver_ip);
+    websocket.onopen = function (event) {
+        alert('connect to websocket server...');
+    }
+
+    websocket.onclose = function (event) {
+        alert("disconnect...");
+    }
+
+    websocket.onmessage = function (event) {
+        alert("to for server: " + event.data);
+    }
+
+    websocket.onerror = function (evt,e) {
+        alert('Error occurd: ' + evt.data);
+    }
+
+</script>
+
+
+</body>
+</html>

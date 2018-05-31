@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<script>
+
+    // {"x5":{"gid":"5","fd":5,"info":"i love you\n"}}
+
+    var event = {
+        gid:5,
+        fd:5,
+        info: "i love "
+    };
+
+    var objtostr = JSON.stringify(event);
+    alert(objtostr);
+
+    var strtoobj = JSON.parse(objtostr);
+    alert(strtoobj);
+    alert(strtoobj.info);
+
+    var str = "{\"x5\":{\"gid\":\"5\",\"fd\":5,\"info\":\"i love you\\n\"}}";
+    var newstr = str.substring(str.indexOf(":") + 1 , str.length - 1);
+    alert(newstr);
+
+
+</script>
+
+</body>
+</html>

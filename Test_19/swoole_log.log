@@ -1,0 +1,13 @@
+=============[ ManagerStart  ]=============
+server->BaseProcess = I am base process !
+=============[EndManagerStart]=============
+
+=============[ start  ]=============
+server->BaseProcess = I am base process !
+=============[Endstart]=============
+
+=============[ WorkerStart  ]=============
+server->BaseProcess = I am base process !
+server->MasterToManager = 
+=============[EndWorkerStart]=============
+
